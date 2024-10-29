@@ -63,8 +63,18 @@ als nächstes müssen wir podman Installieren
 ```
 sudo apt -y install podman
 ```
+now enable podman 
+
+```
+sudo  systemctl start podman 
+
+sudo  systemctl enable podman
+```
+
+you  can inform yourself if it worked by the **status** option of systemctl
+
 now you  can  logout and test podman  mit  **podman -v** 
-  
+
 
 this are the tools you need for the minicube installation
 ```
@@ -82,6 +92,9 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 type  ** minikube version** to test minikube. 
 
 start Minikube
+
+you can do the following step as root 
+
 ```
 sudo minikube start --force
 ```
@@ -92,6 +105,27 @@ minikube status
 ```
 now you can install kubectl  follow this official guidlines.
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+
+you  want to use the cluster from external therefore we have to add ouer user to  the sudoers group 
+
+```
+sudo usermod -a -G $user
+```
+
+then you  have to  add your  minicube config to run as non root 
+
+````
+ minikube config set rootless true
+````
+
+we now bend the ip  to  0.0.0.0 therefore we use the minikube  option --listen-address='0.0.0.0'
+
+This is a potential  securaty risc  but it shuld allow us to  acsess the ip  of wsl  system .
+
+(and it dont works therefore i shuld dig into that difrently)
+
+
+
 
 
 Based on this tutorills
@@ -148,7 +182,7 @@ im  anshluss bitte Helm  Chat installieren das sollte die konfiguration von kube
 
 ```
 winget install Helm.Helm
-``` 
+```
 Based on:
 https://helm.sh/docs/intro/install/
 https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
@@ -166,5 +200,4 @@ kubectl  get pods
 kubectl get all  
 
 >> many things you  normaly do in the cli  you  can now do by hand :) 
-
 
