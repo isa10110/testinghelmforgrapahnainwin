@@ -122,9 +122,7 @@ we now bend the ip  to  0.0.0.0 therefore we use the minikube  option --listen-a
 
 This is a potential  securaty risc  but it shuld allow us to  acsess the ip  of wsl  system .
 
-(and it dont works therefore i shuld dig into that difrently)
-
-
+(and it dont works therefore i shuld dig into that difrently it dont work in userspace run it  as root  dos  the trick **sudo minikube start --force**)
 
 
 
@@ -201,3 +199,31 @@ kubectl get all
 
 >> many things you  normaly do in the cli  you  can now do by hand :) 
 
+
+
+we have to add reposetorys that we can use helm  carts for graphana and phrometeus 
+
+> helm repo add grafana https://grafana.github.io/helm-charts
+> helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+than you want to know if enythink worked 
+
+> helm repo list
+
+now you shuld see at least two  repos :)
+
+grafana and prometheus-community
+
+than you can giv the following commands
+> helm install monitoring-prometheus prometheus-community/prometheus -f .\prometheus.yaml
+>  helm install my-grafana grafana/grafana -f grafanaconf.yaml
+
+now we have two  sporned up  configs ...  the  promometeus and graphanaconf  are based on the original  valuses files with changed settings 
+
+the  grphana is changed that it can run with out the right to modyfing  the  namespace its the same fpr prometheus , the same is for the prometeus char.  prometeus has an option to  place on any node a automatic collector  for metricis ,  I disabled it for leake of pemissions 
+
+you have now conecct both  sevices maualy. 
+
+
+
+https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
