@@ -222,8 +222,13 @@ now we have two  sporned up  configs ...  the  promometeus and graphanaconf  are
 
 the  grphana is changed that it can run with out the right to modyfing  the  namespace its the same fpr prometheus , the same is for the prometeus char.  prometeus has an option to  place on any node a automatic collector  for metricis ,  I disabled it for leake of pemissions 
 
-you have now conecct both  sevices maualy. 
+you have now conect both  sevices maualy. 
+this could be possibly solfed with  a  helmcaht that wraps other charts. 
 
+>helm upgradel my-grafana grafana/grafana -f grafanaconf.yaml
+
+with the related upgrade kommands you can upgrade the chart by edding the config
 
 
 https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
+https://github.com/prometheus-community/helm-charts
