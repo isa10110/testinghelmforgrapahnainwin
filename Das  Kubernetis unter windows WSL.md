@@ -1,65 +1,70 @@
-# Das  Kubernetis unter windows WSL: 
-Idee: ich würde gerne versuchen mein Windows so  zu konfigurieren das ich den verschiedenen Spaces meines kubectls  ein locales cluster und einmal das desy Dchace rencher cluster habe. dafür würde ich gerne einzelene hosts durch WSL  emuliern ... 
-Erkenntnis es funktioniert nicht (ohne weiteres)
+# The Kubernetis under windows WSL: 
+Idea: i would like to try to configure my windows so that i have a local cluster for the different spaces of my kubectl and once the desy Dchace rencher cluster. for this i would like to emulate single hosts by WSL ... 
+realization it does not work (without further ado)
 
-## Einrichtung unserer Tools: 
-Zu  diesem Tutorial: 
-Ich habe c.a 10  jahre linux nutzer Erfahrung und bin mit vielen geflogenheiten unter windows nicht vertraut.  Daher werde ich hier auch vieleicht einige erklärungen dalegen die ich hier gelernt habe in den seitnotizen / zitaten. 
+## The Kubernetis under windows WSL: Setting up our tools:
 
-in diesem Tutorial werde ich dalegen wiso ich bestimmte dinge getan  habe,  und wiso diese notwendig waren. 
+About this tutorial: 
+I have linux user experience and I am not familiar with many of the Windows features.  Therefore I will give some explanations that I have learned here in the side notes / quotes. 
 
-Das tutorial wird sich auf 3  teile beschrenken Systemconfiguratin 
-Kübernetis im Allgemeninen 
-und das Ziel ein Helm Chart für Graphana zu erstellen.  
+In this tutorial I will explain why I did certain things and why they were necessary. 
 
-### Einrichtung WSL: (Instanzen) 
-erste schritte: 
+The tutorial will be limited to 3 parts Systemconfiguratin 
+Kubernetis in general 
+and the goal to create Helm Charts for Graphana.  
+
+### Insatall WSL: (instances) 
+first teps
 
 1. installing WSL  
 
-in der cmd : 
+on the cli (powershell) : 
 
 ````
 wsl --install
 ````
 
-2. schritt 
+2. choose your Distro
 
- Ubuntu  WSL  aus dem Software Store holen ... 
- Debian WSL aus dem Software Store Holen ... 
+ Ubuntu  WSL  take out of the Software Store ... 
+ Debian WSL  take out of the Software Store  ... 
 
-> Der Mikrosoft store ist ein showroom kein paket mannager,  Daher muss die installierte software extern verwaltet und Aktualisiert werden.
+> The Mikrosoft store is a showroom, not a package manager, so the installed software must be managed and updated externally.
 
-3. WSL konfigurieren: 
+3. configure WSL: 
 
-Ändern  des Hostnamens
-folge für ubuntu dem tuturial , das ist gut denn wsl macht dinge anders als sytemd es vorsieht.
+chainging the Hostname on your wsl.
+for ubuntu follow this tuturial , wsl uses sytemd but implement features diffrent than expected.
 https://medium.com/@AnupamMajhi/change-ubuntu-hostname-running-on-wsl-7122b83fd6ed 
 
->dieses Tutorial  funktioniert nur für ubuntu,  das Debian WSL ist anders gebaut
-> Die standard Systemd Tools für die hostnameanzeige funkioniern halb im debian container (die verenderungen werden nicht persistent übernommen) und ganicht im ubutu container 
+>this Tutorial  only works for ubuntu,  the Debian WSL build differently
+> the standard Systemd Tools for chainging the  the hostnameanzeige funkion some howin  debian (the chainges would take over for two  boots than be removed ) 
 
-Installieren von HSTR
+Install  HSTR
 https://github.com/dvorka/hstr/blob/master/INSTALLATION.md#ubuntu
 
 Konfigurieren der Bashrc mitl hstr
-(Jeder hat hier seine eigene präferenz  HSTR ist ein sehr konfortables tool  um die bashrc zu nutzen)
 
-> einrichten notwendiger alias funkttionen,  (es ist ratsam am ende der konfig ein cfetch oder neofetch einzutragen damit man beim login in die bash schell erkennen kann in welchem wsl man ist. )
+HSTR is a tool that makes your bash history serchable,
 
->normale cli systhem tools wie htop müssen nicht instlliert werden,  da sie nicht unbedingt zutreffend auf die hardware gemappt werden  derzeit kann man das was htop liefert mit **top** und **free** abdecken um alle implimentierten features weitgehend abzudeken. 
-(htop  hat noch einige vorteile für die darstellung siehe htop config, jedoch kommt man in unserm usecase weniger damit in berührung)
+(Everyone has their own preference here HSTR is a very convenient tool to use the bashrc)
 
-Installieren standard Software
+> set up necessary alias functions, (it is advisable to enter a cfetch or neofetch at the end of the config so that you can quickly recognize which wsl you are in when logging into the bash. )
+
+>normal cli systhem tools like htop do not need to be installed, as they are not necessarily mapped to the hardware correctly. currently you can cover what htop provides with **top** and **free** to cover all implied features to a large extent. 
+>
+>(htop still has some advantages for the display, see htop config, but in our use case you come less into contact with it)
+
+Install Standard Software
 ```
 sudo apt update; sudo apt upgrade -y; sudo apt autoremove; sudo apt install  vim, neovim, neofetch
 ```
 
-tools können nach vorliebe variirt werden.
+tools can be changed by preference :) 
 
 als nächstes müssen wir podman Installieren 
 
-> Docker erkennt das wir uns in einem WSL Befinden und Möchte uns lieber Docker for windows ans hertz legen. 
+> Docker recognizes that we are in a WSL and would rather recommend Docker for windows. 
 
 ```
 sudo apt -y install podman
@@ -90,7 +95,7 @@ install minikube
 ```
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
-type  ** minikube version** to test minikube. 
+type  **minikube version** to test minikube. 
 
 start Minikube
 
@@ -99,7 +104,7 @@ you can do the following step as root
 ```
 sudo minikube start --force
 ```
-das das minicube  schon einer vm  läuft mag minicube nicht so gerne das forcen führt dazu das das trotzdem started.
+minicube doesn't like the fact that minicube is already running a vm, so forcing it causes it to start anyway.
 
 ```
 minikube status
@@ -125,6 +130,8 @@ This is a potential  securaty risc  but it shuld allow us to  acsess the ip  of 
 
 (and it dont works therefore i shuld dig into that difrently it dont work in userspace run it  as root  dos  the trick **sudo minikube start --force**)
 
+futher investigation could be done :)
+
 
 
 Based on this tutorills
@@ -133,51 +140,49 @@ https://medium.com/@redswitches/how-to-install-podman-on-ubuntu-20-04-and-22-04-
 https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package
 and some more googleling
 
-ggf die Bash  rc weiter anpassen. 
+### Setup Windows as client kubectl client 
 
-### Einrichtung Windows als Client kubectl client 
+we want to get the two kubernetes instances under windows. 
+There are 2 essential tools for this 
 
-wir wollen unter windows die beiden kubernetes instanzen erhalten. 
-dafür giebt es 2 essenzielle tools 
+Kubectl and helm.  Kubectl is an important tool to manage a kubernetes cluster, to start and stop pods that can consist of one or more containers, to configure the pods with deployments that get interfaces to another, for example via services and config maps. 
 
-Kubectl und helm.  Kubectl  ist ein wichtiges tool um ein kubernetis cluster zu managen,  Pods die aus ein oder mehreren kontainern bestehn können zu  starten ud zu stoppen,  die Pods zu konfiguriern mit duch deployments,  die zu ein ander schnittstellen bekommen zum beispile über services und konfig maps. 
+these configurations are templated by helm chart so that simpler kube configuration is possible.  Helm chart manages many configurations for kubernetis, such as a package manager like apt. or later winget.
 
-diese konfigurationen  werden durch helm chart getemplated sodass einfachere kube konfiguration möglich werden.  Helm chart verwaltet viele konfigurationen für kubernetis ,  wie ein paketmannager wie apt. oder später winget.
+#### Setting up kubectl under windows.
 
-#### Einrichtung von kubectl unter windows. 
+windows terminals are different from what we know from the linux world,
+To summarize: 
+windows has a CMD, a Powershell and a Powershell ISE, all these have their own peculiarities, we will use the Powershell in this tutorial. 
 
-windows terminals sind anders als wir das aus der linux welt kennen,
-unm   das zusammenzufassen: 
-windows hat eine CMD,  eine Powershell und eine Powerschell ISE,  All  diese haben ihre eigenen eigenheiten, wir werden in diesem tutorial die Powershell verwenden. 
+>your powershell runs in a terminal emulator, normal control +shift +c and control+shift+v will not work if you nerf it install Alacritty https://github.com/alacritty/alacritty this will make it feel a bit more like a standard terminal emulator.
+>you  would also get in touch with msys2  its allso a good oportonity to  do linux stuff un windows but its more pain theen wsl  in some cases it adds their own cli ,  you  will got in touch if you  install  git for windows xD
 
->ihre powershell läuft in einem terminal  emulator, normales control +shift +c und control+shift+v funktionirt nicht wenn sie das nerft  installieren sie sich  Alacritty https://github.com/alacritty/alacritty  damit fühlt sich der kram dann ein wenig mehr wie ein standard terminal emulator an.
-> you  would also get in touch with msys2  its allso a good oportonity to  do linux stuff un windows but its more pain theen wsl  in some cases it adds their own cli ,  you  will got in touch if you  install  git for windows xD
-
-erste installation von Kubernetes kubectl
+install  kubectl
 
 ``` 
 winget install -e --id Kubernetes.kubectl
 ```
-nun müssen sie die konfiguration ihres kubernetisclusters in das  .kube in ihrem nutzer direktory legen. 
-hierfür müssen sie den ordner erstellen und das file was sie in dem ranshers ihrer kübernetis cluster erhalten in das direktory kopieren mit dem  namen config.
+now you have to put the configuration of your kubernetis cluster into the .kube in your user directory. 
+To do this, you must create the folder and copy the file you receive in the ranshers of your kubernetis cluster into the directory with the name config.
 
-> windows toolig also  gui  stuff ist seltsam teilweise endstehen ordnernamen mit seltsamen zeichen darin am sichersten genen sie wenn sie das mit den standard unix bordmitteln machen. mkdir ls touch (diese funktioniern in der Powershell cmd ist teilweise anders ...)
+> windows toolig also  gui  stuff is strange sometimes anything works tiffrent as expected. for example if you want to create a folder you cant do it propaly using the gui you are better of using the unixi  like  terminal. mkdir ls touch be aware that these tools differ in funktion from cmd to  powershell
 
-in der cubeconfig fügen sie am besten mit die zeile 
+add into  the local kubeconfig file the following lin into the cluster config namespace dependent.
 ```
 namespace: graphana 
 ```
 set a default namespace read more about rbac :) 
 
-diese zeile setzt den default namespace in dem kontext 
+this line gives the default namespace.
 
 in der yaml  sektion  context: unter contexts: hinzu: 
 
-> Es giebt keinen unterschied zwischn .yml und .yaml files es giebt wohl ältere  systeme die keine 4 zeichen dateisuffix vertragen.
+> there is no difference  between .yml  and .yaml files. theire are systems that struggle with a 4 signe datasuffix.
 
-weitere cluster configuration würden so auch hier eingefügt (**contexts**)
+for futher clusters the conficuration can be placed at the (**contexts**) section
 
-im  anshluss bitte Helm  Chat installieren das sollte die konfiguration von kubectl verwenden. 
+than you  can install  helm chart for your kubectl
 
 ```
 winget install Helm.Helm
@@ -198,7 +203,7 @@ Use full  commands
 kubectl  get pods 
 kubectl get all  
 
->> many things you  normaly do in the cli  you  can now do by hand :) 
+>many things you  normaly do in the cli  you  can now do by hand :) 
 
 
 
