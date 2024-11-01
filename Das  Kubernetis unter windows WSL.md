@@ -1,5 +1,5 @@
 # Das  Kubernetis unter windows WSL: 
-Idee: ich würde gerne versuchen mein windows so  zu konfigurieren das ich den verschiedenen spaces meines kubectls  ein locales cluster und einmal das desy dchace rencher cluster habe. dafür würde ich gerne einzelene hosts durch WSL  emuliern... 
+Idee: ich würde gerne versuchen mein Windows so  zu konfigurieren das ich den verschiedenen Spaces meines kubectls  ein locales cluster und einmal das desy Dchace rencher cluster habe. dafür würde ich gerne einzelene hosts durch WSL  emuliern ... 
 Erkenntnis es funktioniert nicht (ohne weiteres)
 
 ## Einrichtung unserer Tools: 
@@ -35,6 +35,7 @@ wsl --install
 Ändern  des Hostnamens
 folge für ubuntu dem tuturial , das ist gut denn wsl macht dinge anders als sytemd es vorsieht.
 https://medium.com/@AnupamMajhi/change-ubuntu-hostname-running-on-wsl-7122b83fd6ed 
+
 >dieses Tutorial  funktioniert nur für ubuntu,  das Debian WSL ist anders gebaut
 > Die standard Systemd Tools für die hostnameanzeige funkioniern halb im debian container (die verenderungen werden nicht persistent übernommen) und ganicht im ubutu container 
 
@@ -112,7 +113,7 @@ you  want to use the cluster from external therefore we have to add ouer user to
 sudo usermod -a -G $user
 ```
 
-then you  have to  add your  minicube config to run as non root 
+then you  have to  ad your  minicube config to run as non root 
 
 ````
  minikube config set rootless true
@@ -220,9 +221,9 @@ than you can giv the following commands
 
 now we have two  sporned up  configs ...  the  promometeus and graphanaconf  are based on the original  valuses files with changed settings 
 
-the  grphana is changed that it can run with out the right to modyfing  the  namespace its the same fpr prometheus , the same is for the prometeus char.  prometeus has an option to  place on any node a automatic collector  for metricis ,  I disabled it for leake of pemissions 
+the  grphana is changed that it can run with out the right to modyfing  the  namespace its the same fpr prometheus , the same is for the prometeus char.  prometeus has an option to  place on any node a automatic collector  for metricis,  I disabled it for leake of pemissions 
 
-(configurable in .\prometheus.yaml)
+(configurable in .\prometheus.yaml) line 1286
 
 you have now conect both  sevices maualy. 
 this could be possibly solfed with  a  helmcaht that wraps other charts. 
